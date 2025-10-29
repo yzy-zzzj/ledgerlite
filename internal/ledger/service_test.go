@@ -9,7 +9,7 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/yzy-zzzj/ledgerlite/internal/observability"
-	"github.com/yzy-zzzj/ledgerlite/internal/types"
+	"github.com/yzy-zzzj/ledgerlite/internal/type"
 )
 
 func TestIdempotentTransfer(t *testing.T) {
