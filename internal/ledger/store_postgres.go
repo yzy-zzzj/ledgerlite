@@ -66,30 +66,30 @@ func (s *PostgresStore) TransferTx(ctx context.Context, req types.TransferReques
 	// Lock accounts in deterministic order to avoid deadlocks
 	a, b := req.FromAccount, req.ToAccount
 	if a > b { a, b = b, a }
-
+	
 	var fromBal, toBal int64
 	var fromCur, toCur string
-
+	
 	if err := tx.QueryRow(ctx, `SELECT currency, balance_cents FROM accounts WHERE id=$1 FOR UPDATE`, a).Scan(&fromCur, &fromBal); err != nil {
 		return nil, fmt.Errorf("lock account %s: %w", a, err)
 	}
 	if err := tx.QueryRow(ctx, `SELECT currency, balance_cents FROM accounts WHERE id=$1 FOR UPDATE`, b).Scan(&toCur, &toBal); err != nil {
 		return nil, fmt.Errorf("lock account %s: %w", b, err)
 	}
-
+	
 	// Currency check (simple same-currency enforcement)
 	if fromCur != toCur || fromCur != req.Currency {
 		return nil, errors.New("currency mismatch")
 	}
-
-	// Ensure we reference the correct balances
-	var fromCurrBal, toCurrBal int64
+	
+	// Determine the source balance for the actual from-account
+	var fromCurrBal int64
 	if req.FromAccount == a {
-		fromCurrBal = fromBal; toCurrBal = toBal
+		fromCurrBal = fromBal
 	} else {
-		fromCurrBal = toBal; toCurrBal = fromBal
+		fromCurrBal = toBal
 	}
-
+	
 	if fromCurrBal < req.AmountCents {
 		return nil, errors.New("insufficient funds")
 	}
