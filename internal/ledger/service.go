@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/yzy-zzzj/ledgerlite/internal/observability"
-	"github.com/yzy-zzzj/ledgerlite/internal/types"
+	"github.com/yzy-zzzj/ledgerlite/internal/type"
 )
 
 type Store interface {
