@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/yzy-zzzj/ledgerlite/internal/httpserver"
+	"github.com/yzy-zzzj/ledgerlite/internal/http"
 	"github.com/yzy-zzzj/ledgerlite/internal/ledger"
 	"github.com/yzy-zzzj/ledgerlite/internal/observability"
 )
