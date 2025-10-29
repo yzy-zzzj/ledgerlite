@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ledgerlite
+    ports: ["5432:5432"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+  migrate:
+    image: postgres:16
+    depends_on: [db]
+    volumes:
+      - ./migrations:/migrations
+    entrypoint: ["/bin/sh","-c","sleep 2 && PGPASSWORD=postgres psql -h db -U postgres -d ledgerlite -f /migrations/001_init.sql"]
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/ledgerlite?sslmode=disable
+      ADDR: ":8080"
+    depends_on:
+      - db
+      - migrate
+    ports: ["8080:8080"]
