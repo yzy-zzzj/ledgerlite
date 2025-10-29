@@ -7,7 +7,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/yzy-zzzj/ledgerlite/internal/types"
+	"github.com/yzy-zzzj/ledgerlite/internal/type"
 )
 
 type PostgresStore struct {
