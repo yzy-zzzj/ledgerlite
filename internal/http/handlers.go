@@ -6,7 +6,7 @@ import (
 
 	"github.com/yzy-zzzj/ledgerlite/internal/ledger"
 	"github.com/yzy-zzzj/ledgerlite/internal/observability"
-	"github.com/yzy-zzzj/ledgerlite/internal/types"
+	"github.com/yzy-zzzj/ledgerlite/internal/type"
 )
 
 func Router(svc *ledger.Service, log *observability.Logger) http.Handler {
